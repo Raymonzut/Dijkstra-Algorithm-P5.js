@@ -1,0 +1,10 @@
+#options {
+  height: auto;
+  width: auto;
+  border: 5px;
+}
+
+.option {
+  display: inline-block;
+  margin-right: 100px;
+}
