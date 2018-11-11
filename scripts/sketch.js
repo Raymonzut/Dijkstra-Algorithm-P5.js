@@ -1,11 +1,11 @@
 let nodes = [];
-let lines = [];
+let edges = [];
 let nodeRadius;
 let selected_node_index;
 let isGrabbing = false;
 let settings = {
-  "modes": [],
-  "states": []
+  modes: [],
+  states: []
 };
 
 function setModes() {
@@ -31,16 +31,18 @@ function setup() {
   // Add the Nodes
   nodes.push(new Node(100, 100, nodeRadius));
   nodes.push(new Node(600, 200, nodeRadius));
-  lines.push([new Edge(nodes[0], nodes[1]), 0, 1]);
+  edges.push([new Edge(nodes[0], nodes[1], 10), 0, 1]);
   setModes();
   checkModes();
+
+  textAlign(CENTER, CENTER);
 }
 
 function draw() {
   background(133);
   // Draw all elements that can be drawn
-  for (var i = 0; i < lines.length; i++) {
-    lines[i][0].draw()
+  for (var i = 0; i < edges.length; i++) {
+    edges[i][0].draw()
   }
   for (var i = 0; i < nodes.length; i++) {
     nodes[i].draw()
@@ -67,11 +69,11 @@ function replaceNode() {
   if (selected_node_index != null) {
     nodes[selected_node_index] = null;
     nodes[selected_node_index] = new Node(mouseX, mouseY, nodeRadius);
-    for (var i = 0; i < lines.length; i++) {
-      if (lines[i][1] == selected_node_index) {
-        lines[i] = [new Edge(nodes[0], nodes[1]), selected_node_index, lines[i][2]];
-      } else if (lines[i][2] == selected_node_index) {
-        lines[i] = [new Edge(nodes[0], nodes[1]), lines[i][1], selected_node_index];
+    for (var i = 0; i < edges.length; i++) {
+      if (edges[i][1] == selected_node_index) {
+        edges[i] = [new Edge(nodes[0], nodes[1], edges[i][0].weight), selected_node_index, edges[i][2]];
+      } else if (edges[i][2] == selected_node_index) {
+        edges[i] = [new Edge(nodes[0], nodes[1], edges[i][0].weight), edges[i][1], selected_node_index];
       }
     }
   }
