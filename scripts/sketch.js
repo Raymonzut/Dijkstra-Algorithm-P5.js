@@ -3,6 +3,7 @@ let edges = [];
 let selectedNodes = [];
 let nodeRadius;
 let selected_node_index;
+let selected_edge_index;
 let selectedNodesIndexes = [];
 let isGrabbing = false;
 let settings = {
@@ -38,9 +39,6 @@ function setup() {
   nodeRadius = height / 12;
 
   // Adds a begin graph, with 2 nodes and a edge to connect them
-  nodes.push(new Node(100, 100, nodeRadius));
-  nodes.push(new Node(600, 200, nodeRadius));
-  edges.push([new Edge(nodes[0], nodes[1], '?'), 0, 1]);
 
   setModes();
 
@@ -52,6 +50,10 @@ function draw() {
 
   // Draw all elements that can be drawn
   for (var i = 0; i < edges.length; i++) {
+    // Prompt a weight for weights that don't make sense
+    if (isNaN(edges[i][0].weight)) {
+      edges[i][0].weight = prompt(`What is the weight? previous weight: ${edges[i][0].weight}`);
+    }
     edges[i][0].draw()
   }
   for (var i = 0; i < nodes.length; i++) {
@@ -153,7 +155,7 @@ function mousePressed() {
       selectedNodes.push(node2);
       selectedNodesIndexes.push(nodes.indexOf(selectedNodes[1]));
       // Now, we have 2 selectedNodes
-      edges.push([new Edge(nodes[selectedNodesIndexes[0]], nodes[selectedNodesIndexes[1]], '?'), selectedNodesIndexes[0], selectedNodesIndexes[1]]);
+      edges.push([new Edge(nodes[selectedNodesIndexes[0]], nodes[selectedNodesIndexes[1]], prompt("What is the weight?")), selectedNodesIndexes[0], selectedNodesIndexes[1]]);
       selectedNodesIndexes = [];
       selectedNodes = [];
     }

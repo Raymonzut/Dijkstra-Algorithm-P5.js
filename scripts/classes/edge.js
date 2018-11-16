@@ -16,7 +16,7 @@ class Edge {
     strokeWeight(3);
     this.relCenter = this.getRelCenter();
     textSize(height / 20);
-    text(this.weight, this.relCenter['x'], this.relCenter['y'] + this.text_offsetY);
+    text(String(this.weight), this.relCenter['x'], this.relCenter['y'] + this.text_offsetY);
   }
 
   getRelCenter() {
