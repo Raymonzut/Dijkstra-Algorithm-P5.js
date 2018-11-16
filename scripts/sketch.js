@@ -16,8 +16,8 @@ let settings = {
  */
 function setModes() {
   let options = document.getElementsByClassName('option');
-  for (var i = 0; i < options.length - 1; i++) {
-    let input = options[i].getElementsByTagName("input")[0]
+  for (var i = 0; i < options.length; i++) {
+    let input = options[i].getElementsByTagName("input")[0];
     settings["modes"].push(input.id);
   }
 }
@@ -27,7 +27,7 @@ function setModes() {
  */
 function checkModes() {
   let options = document.getElementsByClassName('option');
-  for (var i = 0; i < options.length - 1; i++) {
+  for (var i = 0; i < options.length; i++) {
     let input = options[i].getElementsByTagName("input")[0]
     settings["states"][i] = input.checked;
   }
@@ -110,6 +110,21 @@ function replaceNode() {
   }
   selected_node_index = null;
 }
+/**
+ * Will reset all nodes to a default node
+ */
+function clearRoute() {
+  for (var i = 0; i < nodes.length; i++) {
+    nodes[i].is_start = false;
+    nodes[i].is_end = false;
+  }
+}
+/**
+ * Will use Dijkstra's algorithm to calculate the shortest route
+ */
+function calculateRoute() {
+
+}
 
 function mousePressed() {
   checkModes();
@@ -143,7 +158,17 @@ function mousePressed() {
       selectedNodes = [];
     }
   }
+  if (settings["states"][settings["modes"].indexOf("routeTool")]) {
+    if (selectedNodes.length == 0 && selected_node_index != undefined) {
+      clearRoute();
+      nodes[selected_node_index].setAsStart();
+      selectedNodes.push({});
 
+    } else if (selectedNodes.length == 1 && selected_node_index != undefined) {
+      nodes[selected_node_index].setAsEnd();
+      calculateRoute();
+    }
+  }
 }
 
 function mouseMoved() {
