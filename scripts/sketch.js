@@ -11,6 +11,72 @@ let settings = {
   states: []
 };
 
+/**
+ * Loads the nodes and edges data from the localStorage and reconstructs the model
+ */
+function loadGraph() {
+  // Check if there is a Models object
+  if (localStorage["Models"]) {
+    let models = JSON.parse(localStorage.getItem("Models"));
+    let modelNames = [];
+    // Iterates over the keys in models, it is a forEach model : models
+    Object.keys(models).forEach(function(key, index) {
+      modelNames.push(key);
+    });
+    // Check the amount of models, must be bigger than 0
+    if (modelNames.length > 0) {
+      // Empty the current model
+      nodes = [];
+      edges = [];
+
+      let modelToLoad = "";
+      // While the prompt is invalid:
+      while (modelNames.indexOf(modelToLoad) == -1) {
+        modelToLoad = prompt(`Select a model: ${modelNames.join(", ")}`);
+      }
+      let selectedModel = models[modelToLoad];
+
+      // Reconstruct the nodes from the data
+      for (var i = 0; i < selectedModel["nodes"].length; i++) {
+        nodes.push(new Node(selectedModel["nodes"][i].x, selectedModel["nodes"][i].y, selectedModel["nodes"][i].r));
+      }
+      // Reconstruct the edges from the data
+      for (var i = 0; i < selectedModel["edges"].length; i++) {
+        let currentData = selectedModel["edges"][i];
+        let node1 = new Node(currentData[0].node1.x, currentData[0].node1.y, currentData[0].node1.r);
+        let node2 = new Node(currentData[0].node2.x, currentData[0].node2.y, currentData[0].node2.r);
+        let weight = currentData[0].weight;
+        edges.push([new Edge(node1, node2, weight), currentData[1], currentData[2]]);
+      }
+
+    } else {
+      alert("Can not find any models stored in the models folder");
+    }
+  } else {
+    alert("No models saved");
+  }
+}
+/**
+ * Saves the nodes and edges data to the localStorage
+ */
+function saveGraph() {
+  // If models does not exist, make it
+  if (!localStorage["Models"]) {
+    localStorage.setItem("Models", JSON.stringify({}));
+  }
+
+  let fileName = prompt("Enter a name for your graph:");
+  let model = {
+    nodes: nodes,
+    edges: edges
+  }
+  let currentModelStorage = JSON.parse(localStorage["Models"]);
+  currentModelStorage[fileName] = model;
+
+  // Adds the model to the localStorage
+  localStorage.setItem("Models", JSON.stringify(currentModelStorage));
+}
+
 
 /**
  * Loads the different modes that are specified in the html under the options div
@@ -37,8 +103,6 @@ function checkModes() {
 function setup() {
   createCanvas(750, 750);
   nodeRadius = height / 12;
-
-  // Adds a begin graph, with 2 nodes and a edge to connect them
 
   setModes();
 
