@@ -1,7 +1,9 @@
 class Edge {
-  constructor(node1, node2, weight) {
+  constructor(node1, node2, index1, index2, weight) {
     this.node1 = node1;
     this.node2 = node2;
+    this.index1 = index1;
+    this.index2 = index2;
     this.weight = weight;
     this.relCenter = this.getRelCenter();
     this.text_offsetY = -height / 30;

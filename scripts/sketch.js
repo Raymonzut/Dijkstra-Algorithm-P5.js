@@ -42,11 +42,11 @@ function loadGraph() {
       }
       // Reconstruct the edges from the data
       for (var i = 0; i < selectedModel["edges"].length; i++) {
-        let currentData = selectedModel["edges"][i];
-        let node1 = new Node(currentData[0].node1.x, currentData[0].node1.y, currentData[0].node1.r);
-        let node2 = new Node(currentData[0].node2.x, currentData[0].node2.y, currentData[0].node2.r);
-        let weight = currentData[0].weight;
-        edges.push([new Edge(node1, node2, weight), currentData[1], currentData[2]]);
+        let currentEdge = selectedModel["edges"][i];
+        let node1 = new Node(currentEdge.node1.x, currentEdge.node1.y, currentEdge.node1.r);
+        let node2 = new Node(currentEdge.node2.x, currentEdge.node2.y, currentEdge.node2.r);
+        let weight = currentEdge.weight;
+        edges.push(new Edge(node1, node2, currentEdge.index1, currentEdge.index2, weight));
       }
 
     } else {
@@ -115,10 +115,10 @@ function draw() {
   // Draw all elements that can be drawn
   for (var i = 0; i < edges.length; i++) {
     // Prompt a weight for weights that don't make sense
-    if (isNaN(edges[i][0].weight)) {
-      edges[i][0].weight = prompt(`What is the weight? previous weight: ${edges[i][0].weight}`);
+    if (isNaN(edges[i].weight)) {
+      edges[i].weight = prompt(`What is the weight? previous weight: ${edges[i].weight}`);
     }
-    edges[i][0].draw()
+    edges[i].draw()
   }
   for (var i = 0; i < nodes.length; i++) {
     nodes[i].draw()
@@ -164,11 +164,11 @@ function replaceNode() {
     for (var i = 0; i < edges.length; i++) {
       // No loops (yet)
       // An edge in the edge array: [edge(node1, node2, weight), index1, index2]
-      if (edges[i][1] != edges[i][2]) {
-        if (edges[i][1] == selected_node_index) {
-          edges[i] = [new Edge(movingNode, edges[i][0].node2, edges[i][0].weight), selected_node_index, edges[i][2]];
-        } else if (edges[i][2] == selected_node_index) {
-          edges[i] = [new Edge(edges[i][0].node1, movingNode, edges[i][0].weight), edges[i][1], selected_node_index];
+      if (edges[i].index1 != edges[i].index2) {
+        if (edges[i].index1 == selected_node_index) {
+          edges[i] = new Edge(movingNode, edges[i].node2, selected_node_index, edges[i].index2, edges[i].weight);
+        } else if (edges[i].index2 == selected_node_index) {
+          edges[i] = new Edge(edges[i].node1, movingNode, edges[i].index1, selected_node_index, edges[i].weight);
         }
 
       }
@@ -219,7 +219,7 @@ function mousePressed() {
       selectedNodes.push(node2);
       selectedNodesIndexes.push(nodes.indexOf(selectedNodes[1]));
       // Now, we have 2 selectedNodes
-      edges.push([new Edge(nodes[selectedNodesIndexes[0]], nodes[selectedNodesIndexes[1]], prompt("What is the weight?")), selectedNodesIndexes[0], selectedNodesIndexes[1]]);
+      edges.push(new Edge(nodes[selectedNodesIndexes[0]], nodes[selectedNodesIndexes[1]], selectedNodesIndexes[0], selectedNodesIndexes[1], prompt("What is the weight?")));
       selectedNodesIndexes = [];
       selectedNodes = [];
     }
@@ -242,5 +242,4 @@ function mouseMoved() {
   if (isGrabbing && settings["states"][settings["modes"].indexOf("grabTool")]) {
     replaceNode();
   }
-
 }
