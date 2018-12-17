@@ -27,7 +27,7 @@ class Node {
     strokeWeight(3);
     textSize(height / 20);
 
-    if (this.weight = Infinity) {
+    if (this.weight == Infinity) {
       text("∞", this.x, this.y);
     } else {
       text(String(this.weight), this.x, this.y);
