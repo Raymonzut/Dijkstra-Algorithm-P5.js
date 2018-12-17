@@ -176,21 +176,7 @@ function replaceNode() {
   }
   selected_node_index = null;
 }
-/**
- * Will reset all nodes to a default node
- */
-function clearRoute() {
-  for (var i = 0; i < nodes.length; i++) {
-    nodes[i].is_start = false;
-    nodes[i].is_end = false;
-  }
-}
-/**
- * Will use Dijkstra's algorithm to calculate the shortest route
- */
-function calculateRoute() {
 
-}
 
 function mousePressed() {
   checkModes();
@@ -227,11 +213,11 @@ function mousePressed() {
   if (settings["states"][settings["modes"].indexOf("routeTool")]) {
     if (selectedNodes.length == 0 && selected_node_index != undefined) {
       clearRoute();
-      nodes[selected_node_index].setAsStart();
+      nodes[selected_node_index].setAsStart(true);
       selectedNodes.push({});
 
     } else if (selectedNodes.length == 1 && selected_node_index != undefined) {
-      nodes[selected_node_index].setAsEnd();
+      nodes[selected_node_index].setAsEnd(true);
       calculateRoute();
     }
   }
