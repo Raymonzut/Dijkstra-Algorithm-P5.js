@@ -7,6 +7,9 @@ class Node {
     this.color = 255;
     this.is_start = false;
     this.is_end = false;
+    this.weight = Infinity;
+    this.canVisit = true;
+    this.came_from_index = undefined;
 
   }
 
@@ -19,6 +22,16 @@ class Node {
     strokeWeight(this.edge);
     fill(this.color);
     ellipse(this.x, this.y, this.r, this.r);
+
+    fill(0);
+    strokeWeight(3);
+    textSize(height / 20);
+
+    if (this.weight = Infinity) {
+      text("∞", this.x, this.y);
+    } else {
+      text(String(this.weight), this.x, this.y);
+    }
   }
 
   setAsStart(is_start) {
@@ -28,7 +41,17 @@ class Node {
 
   setAsEnd(is_end) {
     this.is_end = is_end;
+    this.is_current = true;
     this.color = color(214, 65, 56);
+  }
+  initPathFinding() {
+    if (this.is_start) {
+      this.weight = 0;
+    }
+
+  }
+  setCameFromIndex(index) {
+    this.came_from_index = index;
   }
 
 }
