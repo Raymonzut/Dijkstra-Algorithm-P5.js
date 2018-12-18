@@ -4,6 +4,7 @@ class Edge {
     this.node2 = node2;
     this.index1 = index1;
     this.index2 = index2;
+    this.connected = [index1, index2];
     this.weight = weight;
     this.relCenter = this.getRelCenter();
     this.text_offsetY = -height / 30;
@@ -28,5 +29,12 @@ class Edge {
       x: relX_center,
       y: relY_center
     }
+  }
+  getCurrentSideIndex(index) {
+    return this.connected[0] == index ? this.connected[0] : this.connected[1];
+  }
+
+  getOtherSideIndex(index) {
+    return this.connected[0] == index ? this.connected[1] : this.connected[0];
   }
 }
