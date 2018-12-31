@@ -12,7 +12,23 @@ function clearRoute() {
  * Will show the optimal route from the calculated graph
  */
 function showRoute() {
+  for (var i = 0; i < nodes.length; i++) {
+    for (var j = 0; j < edges.length; j++) {
+      if (edges[j].connected.includes(i)) {
 
+        let node_index_there = edges[j].getOtherSideIndex(i);
+        let current_own_weight = nodes[i].weight;
+        let current_neighbour_weight = nodes[node_index_there].weight;
+        let should_be_neighbour_weight = current_own_weight + parseInt(edges[j].weight);
+
+        if (current_neighbour_weight == should_be_neighbour_weight) {
+          console.log(edges[j]);
+          edges[j].color = color(0, 0, 200);
+          console.log(edges[j]);
+        }
+      }
+    }
+  }
 }
 
 function updateNeighbours(index) {
@@ -96,13 +112,15 @@ function calculateRoute() {
   let timer = setInterval(function() {
     if (canExit) {
       clearInterval(timer);
+      showRoute();
+      console.log("Cleared");
       return;
     }
     updateNeighbours(currentIndex);
     nodes[currentIndex].canVisit = false;
     currentIndex = getLowestNodeIndex(endIndex);
     canExit = (currentIndex == null);
-  }, 2000);
+  }, 500);
 
   console.log(currentIndex == endIndex);
 
