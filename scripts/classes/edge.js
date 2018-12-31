@@ -8,10 +8,11 @@ class Edge {
     this.weight = weight;
     this.relCenter = this.getRelCenter();
     this.text_offsetY = -height / 30;
+    this.color = color(0, 0, 0);
   }
 
   draw() {
-    stroke(0);
+    stroke(this.color);
     strokeWeight(height / 125);
     line(this.node1.x, this.node1.y, this.node2.x, this.node2.y);
 
