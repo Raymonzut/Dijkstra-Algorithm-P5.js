@@ -22,9 +22,7 @@ function showRoute() {
         let should_be_neighbour_weight = current_own_weight + parseInt(edges[j].weight);
 
         if (current_neighbour_weight == should_be_neighbour_weight) {
-          console.log(edges[j]);
           edges[j].color = color(0, 0, 200);
-          console.log(edges[j]);
         }
       }
     }
@@ -43,7 +41,6 @@ function updateNeighbours(index) {
       let current_neighbour_weight = nodes[node_index_there].weight;
       let new_neighbour_weight = nodes[node_index_here].weight + parseInt(edges[i].weight);
 
-      console.log(`${current_neighbour_weight}, ${new_neighbour_weight}`);
 
       if (current_neighbour_weight > new_neighbour_weight) {
         nodes[node_index_there].weight = new_neighbour_weight;
@@ -57,7 +54,6 @@ function updateNeighbours(index) {
  * Will update weights of nodes
  * Will return the index of the lowest node
  */
-// Check if valid, haven't seen mistake (yet)
 function getLowestNodeIndex(endIndex) {
   let lowestIndex;
   let changed = false;
@@ -75,11 +71,7 @@ function getLowestNodeIndex(endIndex) {
     }
   }
 
-  if (!changed) {
-    console.log("No lower index");
-    return null;
-  } else if (lowestIndex == endIndex) {
-    console.log("End reached early");
+  if (!changed || lowestIndex == endIndex) {
     return null;
   } else {
     return lowestIndex;
@@ -107,13 +99,10 @@ function calculateRoute() {
     }
   }
 
-  // Reconsider ending condition
-  // Algoritm not "Walking" properly
   let timer = setInterval(function() {
     if (canExit) {
       clearInterval(timer);
       showRoute();
-      console.log("Cleared");
       return;
     }
     updateNeighbours(currentIndex);
@@ -121,9 +110,4 @@ function calculateRoute() {
     currentIndex = getLowestNodeIndex(endIndex);
     canExit = (currentIndex == null);
   }, 500);
-
-  console.log(currentIndex == endIndex);
-
-
-
 }
