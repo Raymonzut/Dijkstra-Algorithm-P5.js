@@ -1,0 +1,21 @@
+#options {
+  height: auto;
+  width: auto;
+  border: 5px;
+}
+
+.option {
+  display: inline-block;
+  margin-right: 100px;
+}
+
+.button {
+  border: 30px;
+  border-radius: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 40px;
+  width: 750px;
+  display: block;
+  color: rgb(0, 50, 65)
+}
