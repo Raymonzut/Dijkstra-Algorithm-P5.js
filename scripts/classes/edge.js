@@ -38,4 +38,7 @@ class Edge {
   getOtherSideIndex(index) {
     return this.connected[0] == index ? this.connected[1] : this.connected[0];
   }
+  reset() {
+    this.color = color(0, 0, 0);
+  }
 }

@@ -145,6 +145,16 @@ function checkOnNode() {
   }
 }
 
+function resetAll() {
+  for (var i = 0; i < nodes.length; i++) {
+    nodes[i].reset();
+  }
+  for (var i = 0; i < edges.length; i++) {
+    edges[i].reset();
+  }
+}
+
+
 /**
  * Will grab the node where the mouse is on, this node will be replaced with the update node:
  * It will have a new x and y position
@@ -154,7 +164,6 @@ function replaceNode() {
   checkOnNode();
   let mousePos = [mouseX, mouseY];
 
-  // TODO: Fix the edge not moving with bug
   if (selected_node_index != null) {
     // Replace the node
     nodes[selected_node_index] = new Node(mousePos[0], mousePos[1], nodeRadius);
@@ -163,7 +172,6 @@ function replaceNode() {
 
     for (var i = 0; i < edges.length; i++) {
       // No loops (yet)
-      // An edge in the edge array: [edge(node1, node2, weight), index1, index2]
       if (edges[i].index1 != edges[i].index2) {
         if (edges[i].index1 == selected_node_index) {
           edges[i] = new Edge(movingNode, edges[i].node2, selected_node_index, edges[i].index2, edges[i].weight);
@@ -226,6 +234,7 @@ function mousePressed() {
 function mouseMoved() {
   // Checks if grabbing and checks if the grab node button is on
   if (isGrabbing && settings["states"][settings["modes"].indexOf("grabTool")]) {
+    resetAll();
     replaceNode();
   }
 }
