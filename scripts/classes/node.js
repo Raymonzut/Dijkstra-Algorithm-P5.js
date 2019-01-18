@@ -9,8 +9,6 @@ class Node {
     this.is_end = false;
     this.weight = Infinity;
     this.canVisit = true;
-    this.came_from_index = undefined;
-
   }
 
   draw() {
@@ -50,8 +48,12 @@ class Node {
     }
 
   }
-  setCameFromIndex(index) {
-    this.came_from_index = index;
+  reset() {
+    this.color = 255;
+    this.is_start = false;
+    this.is_end = false;
+    this.weight = Infinity;
+    this.canVisit = true;
   }
 
 }
